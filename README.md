@@ -14,9 +14,10 @@ A light control system for heavy meta, an art car headed to burning man.
 
 TBD!
 
-To control the lights:
+To start the server:
 ```
-pex ./lights.py
+export FLASK_APP=src/api.py
+pex flask run
 ```
 
 To start the control interface:
