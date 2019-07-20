@@ -23,6 +23,6 @@ def hello():
 def change_color():
     color = random.choice(colors)
     print("Attempting to change color to {}".format(color))
-    # bulb = devices[0]
-    # bulb.set_color(color, 10, True)
+    bulb = devices[0]
+    bulb.set_color(color, 10, True)
     return {"color":color}

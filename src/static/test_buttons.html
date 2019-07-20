@@ -5,9 +5,9 @@
   <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
   <body>
     <script>
-        function myFunction() {
+        function change_lights() {
             console.log("CLICKED");
-            fetch('http://127.0.0.1:5000/color/change')
+            fetch('http://' + document.location.host + '/color/change')
                 .then(
                     function (response) {
                         if (response.status !== 200) {
@@ -42,7 +42,7 @@
             no sea takimata sanctus est Lorem ipsum dolor sit amet.
         </p>
 
-        <a class="f6 link dim ph3 pv2 mb2 dib white bg-black" href="#" onclick="myFunction()">Change Lights</a>
+        <a class="f6 link dim ph3 pv2 mb2 dib white bg-black" href="#" onclick="change_lights()">Change Lights</a>
     </article>
   </body>
 </html>

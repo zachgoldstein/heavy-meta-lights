@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "533d091dacf1d02c83ed7406c6f326a7775cf0ff572c4583af7f6300035230ed"
+            "sha256": "089c1e21aab12c8e7578fb802b3dbc2c6b0827e6ae9a8ef4af45983a623c7acc"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,9 +18,11 @@
     "default": {
         "bitstring": {
             "hashes": [
-                "sha256:c163a86fcef377c314690051885d86b47419e3e1770990c212e16723c1c08faa"
+                "sha256:7b60b0c300d0d3d0a24ec84abfda4b0eaed3dc56dc90f6cbfe497166c9ad8443",
+                "sha256:c97a8e2a136e99b523b27da420736ae5cb68f83519d633794a6a11192f69f8bf",
+                "sha256:e392819965e7e0246e3cf6a51d5a54e731890ae03ebbfa3cd0e4f74909072096"
             ],
-            "version": "==3.1.5"
+            "version": "==3.1.6"
         },
         "click": {
             "hashes": [
@@ -31,11 +33,11 @@
         },
         "flask": {
             "hashes": [
-                "sha256:a31adc27de06034c657a8dc091cc5fcb0227f2474798409bff0e9674de31a026",
-                "sha256:b5ae63812021cb04174fcff05d560a98387a44d9cccd4652a2bfa131ba4e4c9b"
+                "sha256:13f9f196f330c7c2c5d7a5cf91af894110ca0215ac051b5844701f2bfd934d52",
+                "sha256:45eb5a6fd193d6cf7e0cf5d8a5b31f83d5faae0293695626f539a823e93b13f6"
             ],
             "index": "pypi",
-            "version": "==1.1.0"
+            "version": "==1.1.1"
         },
         "itsdangerous": {
             "hashes": [
@@ -164,10 +166,10 @@
         },
         "werkzeug": {
             "hashes": [
-                "sha256:865856ebb55c4dcd0630cdd8f3331a1847a819dda7e8c750d3db6f2aa6c0209c",
-                "sha256:a0b915f0815982fb2a09161cb8f31708052d0951c3ba433ccc5e1aa276507ca6"
+                "sha256:87ae4e5b5366da2347eb3116c0e6c681a0e939a33b2805e2c0cbd282664932c4",
+                "sha256:a13b74dd3c45f758d4ebdb224be8f1ab8ef58b3c0ffc1783a8c7d9f4f50227e6"
             ],
-            "version": "==0.15.4"
+            "version": "==0.15.5"
         }
     },
     "develop": {
@@ -214,6 +216,14 @@
                 "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"
             ],
             "version": "==0.6.1"
+        },
+        "pex": {
+            "hashes": [
+                "sha256:36f3aebd16f0bfa25236dcd57ba390fee1e45258532a371b811e188026b092d8",
+                "sha256:727e8d3910037f5abc15d2846784fe8fbe4485fdeec6385732733772009b2bfe"
+            ],
+            "index": "pypi",
+            "version": "==1.6.8"
         },
         "pylint": {
             "hashes": [
