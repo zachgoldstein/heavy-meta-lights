@@ -26,6 +26,19 @@
                     console.log('Fetch Error :-S', err);
                 });
         }
+
+        function set_mode(mode) {
+            return fetch('http://' + document.location.host + '/mode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                redirect: 'follow',
+                referrer: 'no-referrer',
+                body: JSON.stringify({ mode: mode }),
+            })
+            .then(response => response.json());
+        }
     </script>
     <article class="pa3 pa5-ns">
         <h1 class="f3 f1-m f-headline-l">Heavy Meta Lights</h1>
@@ -42,7 +55,9 @@
             no sea takimata sanctus est Lorem ipsum dolor sit amet.
         </p>
 
-        <a class="f6 link dim ph3 pv2 mb2 dib white bg-black" href="#" onclick="change_lights()">Change Lights</a>
+        <a class="f6 link dim ph3 pv2 mb2 dib white bg-black" href="#" onclick="change_lights()">Set Random Light Color</a>
+        <a class="f6 link dim ph3 pv2 mb2 dib white bg-black" href="#" onclick="set_mode('light_race')">Light Race</a>
+        <a class="f6 link dim ph3 pv2 mb2 dib white bg-black" href="#" onclick="set_mode('sparkles')">Sparkles</a>
     </article>
   </body>
 </html>
