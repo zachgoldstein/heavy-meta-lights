@@ -5,11 +5,13 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+pex = "*"
 
 [packages]
-lifxlan = {path = "./lifxlan"}
+lifxlan = "*"
 pyaudio = "*"
 numpy = "*"
+flask = "*"
 
 [requires]
 python_version = "3.7"
