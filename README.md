@@ -16,9 +16,11 @@ A light control system for heavy meta, an art car headed to burning man.
 ```
 export FLASK_APP=/home/pi/art-car/src/api.py
 pipenv shell
+flask run --host=0.0.0.0
 ```
-You should see some ouput saying  "* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)"
+You should see some ouput saying  "* Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)"
 - Navigate to the raspi ip and port 5000 on any browser on the network
+  - There's a interface available at http://192.168.1.21:5000/static/test_buttons.html
 - Press buttons and things
 - ♪┏(・o･)┛♪┗ ( ･o･) ┓♪
 
