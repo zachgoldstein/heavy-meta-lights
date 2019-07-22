@@ -1,5 +1,6 @@
 import random
 import time
+import datetime
 import threading
 
 from flask import Flask, json, request
@@ -41,9 +42,10 @@ def post_mode():
     return {"mode":mode}
 
 
-def light_control_loop(sleep_time=0.1):
+def light_control_loop(sleep_time=0.0005):
     while True:
         for device in devices:
+            print("running on device...{}".format(device.mac_addr))
             if current_mode in light_modes:
                 print("running light mode: {}, sleep_time {}".format(current_mode, sleep_time))
                 try:
@@ -51,9 +53,15 @@ def light_control_loop(sleep_time=0.1):
                 except Exception as e:
                     print("Error running light mode! error: {}".format(e))
 
+zone_map = {}
 
 def sparkles(bulb, sleep_time=0.05):
-    zones = bulb.get_color_zones()
+    if bulb.mac_addr in zone_map:
+        zones = zone_map[bulb.mac_addr]
+    else:
+        zones = bulb.get_color_zones()
+        zone_map[bulb.mac_addr] = zones
+
     zone_ids = list(range(len(zones)+1))
     for i in range(10):
         selected_zone = random.choice(zone_ids)
@@ -69,7 +77,11 @@ def sparkles(bulb, sleep_time=0.05):
 
 
 def light_race(bulb, sleep_time=0.05):
-    zones = bulb.get_color_zones()
+    if bulb.mac_addr in zone_map:
+        zones = zone_map[bulb.mac_addr]
+    else:
+        zones = bulb.get_color_zones()
+        zone_map[bulb.mac_addr] = zones
     selected_zone = 0
     for i in range(10):
         selected_zone += 1
