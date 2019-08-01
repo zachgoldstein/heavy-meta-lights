@@ -1,0 +1,14 @@
+[Unit]
+Description=Heavy Meta Lights
+After=multi-user.target
+
+[Service]
+StandardOutput=inherit
+StandardError=inherit
+User=pi
+Type=simple
+WorkingDirectory=/home/pi/art-car
+ExecStart=/bin/sh -c "/home/pi/art-car/run.sh"
+
+[Install]
+WantedBy=multi-user.target
