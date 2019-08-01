@@ -54,13 +54,31 @@ mkdir ./art-car
 cd ./art-car
 pipenv update && pipenv install
 ```
-- Still on the raspi, add this to /etc/rc.local to make it run on startup:
-```
-export FLASK_APP=/home/pi/art-car/src/api.py
-pipenv shell
-flask run &
-```
 - From the host machine, copy over all files `scp -rp ./* pi@<raspi ip>:/home/pi/art-car`
+- Back on the raspi, copy over the systemd service so the app will start when the raspi starts up:
+```
+sudo cp /home/pi/art-car/art-car.service /lib/systemd/system/art-car.service
+sudo chmod 644 /lib/systemd/system/art-car.service
+sudo chmod 777 /home/pi/art-car/run.sh 
+sudo systemctl daemon-reload
+sudo systemctl enable art-car.service
+sudo reboot
+```
+
+You should now see lights going crazy when the raspberry pi starts.
+To control the service, on the raspberry pi, use systemd:
+To stop:
+```
+sudo systemctl stop art-car.service
+```
+To restart:
+```
+sudo systemctl restart art-car.service
+```
+To view the logs, use journalctl:
+```
+journalctl -u art-car.service
+```
 
 ## How can I get involved?
 
