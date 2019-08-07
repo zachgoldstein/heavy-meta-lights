@@ -4,16 +4,20 @@ import datetime
 import threading
 
 from flask import Flask, json, request
-import pyaudio
 import numpy as np
 from lifxlan import BLUE, CYAN, GREEN, LifxLAN, ORANGE, PINK, PURPLE, RED, YELLOW, WHITE
 
+from lights import LightControl
+
 app = Flask(__name__)
 
-print("Discovering lights...")
-lifx = LifxLAN(None)
-devices = lifx.get_lights()
-print("Found {}".format(len(devices)))
+light_control = LightControl()
+
+app_state = {
+    "sensitivity": 0.1,
+    "light_command_frequency": 0.0005,
+    "sensor_poll_frequency": 0.00001,
+}
 
 
 @app.route("/")
@@ -23,6 +27,9 @@ def hello():
 
 @app.route("/color/change")
 def change_color():
+    global light_control
+    light_control.current_light_mode = None
+    colors = [RED, ORANGE, YELLOW, GREEN, CYAN, BLUE, PURPLE, PINK]
     color = random.choice(colors)
     print("Attempting to change color to {}".format(color))
     for device in devices:
@@ -37,70 +44,22 @@ def post_mode():
         return {}
     mode = json_data['mode']
     print("Setting light control mode to {}".format(mode))
+    global light_control
+    light_control.current_light_mode = mode
+    return {"mode":mode}
+
+
+@app.route("/stats", methods=['GET'])
+def get_app_stats():
+    json_data = request.get_json()
+    if 'mode' not in json_data:
+        return {}
+    mode = json_data['mode']
+    print("Setting light control mode to {}".format(mode))
     global current_mode
     current_mode = mode
     return {"mode":mode}
 
 
-def light_control_loop(sleep_time=0.0005):
-    while True:
-        for device in devices:
-            print("running on device...{}".format(device.mac_addr))
-            if current_mode in light_modes:
-                print("running light mode: {}, sleep_time {}".format(current_mode, sleep_time))
-                try:
-                    light_modes[current_mode](device, sleep_time=sleep_time)
-                except Exception as e:
-                    print("Error running light mode! error: {}".format(e))
-
-zone_map = {}
-
-def sparkles(bulb, sleep_time=0.05):
-    if bulb.mac_addr in zone_map:
-        zones = zone_map[bulb.mac_addr]
-    else:
-        zones = bulb.get_color_zones()
-        zone_map[bulb.mac_addr] = zones
-
-    zone_ids = list(range(len(zones)+1))
-    for i in range(10):
-        selected_zone = random.choice(zone_ids)
-        for i, zone in enumerate(zones, 1):
-            if i == selected_zone:
-                bulb.set_zone_color(i-1,i,WHITE, 1, True)
-            else:
-                bulb.set_zone_color(i-1,i,[65535, 65535, 0, 65535], 1, True)
-        zone_ids.remove(selected_zone)
-        if len(zone_ids) == 0:
-            break
-        time.sleep(sleep_time)
-
-
-def light_race(bulb, sleep_time=0.05):
-    if bulb.mac_addr in zone_map:
-        zones = zone_map[bulb.mac_addr]
-    else:
-        zones = bulb.get_color_zones()
-        zone_map[bulb.mac_addr] = zones
-    selected_zone = 0
-    for i in range(10):
-        selected_zone += 1
-        for i, zone in enumerate(zones, 1):
-            if i == selected_zone:
-                bulb.set_zone_color(i-1,i,WHITE, 1, True)
-            else:
-                bulb.set_zone_color(i-1,i,[65535, 65535, 0, 65535], 1, True)
-        time.sleep(sleep_time)
-
-
-light_modes = {
-    "sparkles": sparkles,
-    "light_race": light_race
-}
-current_mode = "sparkles"
-running_thread = None
-
-colors = [RED, ORANGE, YELLOW, GREEN, CYAN, BLUE, PURPLE, PINK]
-thread = threading.Thread(target=light_control_loop, args=())
-thread.daemon = True
-thread.start()
+asyncio.run(light_control.discover_lights_continuously())
+asyncio.run(light_control.run_light_mode_continuously())

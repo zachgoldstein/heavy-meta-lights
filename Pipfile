@@ -12,6 +12,7 @@ lifxlan = "*"
 pyaudio = "*"
 numpy = "*"
 flask = "*"
+adafruit-circuitpython-bmp280 = "*"
 
 [requires]
 python_version = "3.7"
